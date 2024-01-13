@@ -18,13 +18,13 @@ from .process_data import process_data
 def query_emotion_model(request):
   file = request.FILES.get("file")
   df = pd.read_csv(file, usecols=['text'])
-  df['emotion_label'] = df["text"].apply(process_data.emotion_model)
-  count_emotions = df['emotion_label'].value_counts()
+  df['label'] = df["text"].apply(process_data.emotion_model)
+  count_emotions = df['label'].value_counts()
 
   data_json = json.loads(df.to_json(orient='records'))
   count_emotions_json = json.loads(count_emotions.to_json())
 
-  return Response({"data": data_json, "count_labels": count_emotions_json})
+  return Response({"data": data_json, "count_labels": count_emotions_json, "motive": "emotions"})
 
 
 @api_view(('POST',))
@@ -33,10 +33,10 @@ def query_emotion_model(request):
 def query_sentiment_model(request):
   file = request.FILES.get("file")
   df = pd.read_csv(file, usecols=['text'])
-  df['sentiment_label'] = df["text"].apply(process_data.sentiment_model)
-  count_sentiments = df['sentiment_label'].value_counts()
+  df['label'] = df["text"].apply(process_data.sentiment_model)
+  count_sentiments = df['label'].value_counts()
 
   data_json = json.loads(df.to_json(orient='records'))
   count_sentiments_json = json.loads(count_sentiments.to_json())
 
-  return Response({"data": data_json, "count_labels": count_sentiments_json})
+  return Response({"data": data_json, "count_labels": count_sentiments_json, "motive": "sentiments"})
