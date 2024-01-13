@@ -16,9 +16,18 @@ class UserViewSet(viewsets.ModelViewSet):
   serializer_class = UserRegisterSerializer
 
   def create(self, request, *arg, **kwargs):
+    email = request.data.get("email")
+    password = request.data.get("password")
+
+    if not email or not password:
+      return Response({"msg": "Los campos no pueden estar vacios"}, status=status.HTTP_400_BAD_REQUEST)
+
+    if email and User.objects.filter(email=email).exists():
+      return Response({"msg": "Correo electronico ya registrado"}, status=status.HTTP_400_BAD_REQUEST)
+
     data = {
-      'email': request.data.get('email'),
-      'password': request.data.get('password'),
+      'email': email,
+      'password': password,
     }
 
     serializer = self.get_serializer(data=data)
@@ -49,7 +58,7 @@ def login_view(request):
   return Response(user_serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def logout_view(request):
     logout(request)
