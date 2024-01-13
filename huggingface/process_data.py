@@ -13,12 +13,20 @@ class ProcessData:
 
   def emotion_model(self, data):
     response = self.httpClient.request("POST", EMOTION_ENDPOINT, json=data)
-    label = response.json()[0][0]["label"]
+    if response.status_code == 200:
+      label = response.json()[0][0]["label"]
+    else:
+      label = "error"
+      print(response.content)
     return label
 
   def sentiment_model(self, data):
     response = self.httpClient.request("POST", SENTIMENT_ENDPOINT, json=data)
-    label = response.json()[0][0]["label"]
+    if response.status_code == 200:
+      label = response.json()[0][0]["label"]
+    else:
+      label = "error"
+      print(response.content)
     return label
 
 process_data = ProcessData()
