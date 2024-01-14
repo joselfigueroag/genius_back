@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'sentimentandemotion.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('NAME'),
-        'USER': config('USER'),
-        'PASSWORD': config('PASSWORD'),
-        'HOST': config('HOST'),
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST'),
         'PORT': '5432',
     }
 }
@@ -147,3 +147,5 @@ REST_FRAMEWORK = {
 SHELL_PLUS = 'ipython'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'

@@ -49,7 +49,7 @@ def login_view(request):
   if email and not User.objects.filter(email=email).exists():
     return Response({"msg": "Correo electronico no registrado"}, status=status.HTTP_404_NOT_FOUND)
 
-  user = authenticate(request, email=email, password=password)
+  user = authenticate(email=email, password=password)
 
   if not user:
     return Response({"msg": "Error en credenciales, verificar y corregir"}, status=status.HTTP_400_BAD_REQUEST)

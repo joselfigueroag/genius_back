@@ -15,7 +15,7 @@ from .process_data import process_data
 @api_view(('POST',))
 @permission_classes([IsAuthenticated])
 @csrf_exempt
-def query_emotion_model(request):
+def query_emotion_model_view(request):
   file = request.FILES.get("file")
   df = pd.read_csv(file, usecols=['text'])
   df['label'] = df["text"].apply(process_data.emotion_model)
@@ -30,7 +30,7 @@ def query_emotion_model(request):
 @api_view(('POST',))
 @permission_classes([IsAuthenticated])
 @csrf_exempt
-def query_sentiment_model(request):
+def query_sentiment_model_view(request):
   file = request.FILES.get("file")
   df = pd.read_csv(file, usecols=['text'])
   df['label'] = df["text"].apply(process_data.sentiment_model)
