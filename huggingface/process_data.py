@@ -1,4 +1,5 @@
 import requests
+from decouple import config
 
 from .models import Comment
 
@@ -10,7 +11,7 @@ class ProcessData:
   def __init__(self, *args, **kwargs):
     self.httpClient = requests.Session()
     self.httpClient.headers.update(
-      {"Authorization": "Bearer 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"}
+      {"Authorization": f"Bearer {config('HUGGING_FACE_TOKEN')}"}
     )
 
   def emotion_model(self, data):
